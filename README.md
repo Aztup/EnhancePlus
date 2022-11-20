@@ -7,11 +7,9 @@ Currently Spotify does not allows you to add a recommended song to your playlist
   - [Installation](#installation)
   - [Usage](#usage)
   - [Report a Bug](#bugs)
+  - [Misc](#misc)
 
 ## Installation
-Install via [spicetify-marketplace](https://github.com/CharlieS1103/spicetify-marketplace)
-
-You can also install it via the manual way:  
 Copy [enhance-plus.js](https://github.com/Aztup/EnhancePlus/blob/master/dist/enhance-plus.js) and drag it to the spicetify extenstions folder
 | **Platform**    | **Path**                               |
 |-----------------|----------------------------------------|
@@ -29,3 +27,7 @@ To use this extension play a recommended song and you'll see [2 button appears](
 
 ## Bugs
 If you find any bugs please feel free to open an issue on the [github](https://github.com/Aztup/EnhancePlus/issues/new) page
+
+## Misc
+If you like the extension don't hesitate to like it here
+[![Github Stars badge](https://img.shields.io/github/stars/Aztup/EnhancePlus?logo=github&style=social)](https://github.com/Aztup/EnhancePlus/)
