@@ -1,0 +1,14 @@
+.enhance-plus-btns-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+
+.enhance-plus-add-to-playlist > button, .enhance-plus-remove-to-playlist > button {
+    border: none;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
