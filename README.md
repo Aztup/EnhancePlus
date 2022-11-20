@@ -1,4 +1,3 @@
-
 # Enhance Plus
 Currently Spotify does not allows you to add a recommended song to your playlist without having to find it in the playlist which can be very annoying if your playlist have a certain amount of songs, this extension was made to solve that problem. As shown below.
 
