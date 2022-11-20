@@ -8,6 +8,7 @@ async function main() {
   }
 
   const playingWidgetContainer: any = document.querySelector('[class="main-nowPlayingWidget-nowPlaying"]')
+  if (!playingWidgetContainer) return setTimeout(main, 300);
   playingWidgetContainer.insertAdjacentHTML('beforeend', `
   <div class="enhance-plus-btns-container">
   <span class="enhance-plus-add-to-playlist">
