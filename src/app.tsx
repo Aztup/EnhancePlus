@@ -1,5 +1,7 @@
 // @ts-nocheck
 import 'css/main.css';
+console.log('go?');
+
 async function main() {
   const { Platform, Player, CosmosAsync } = Spicetify;
   if (!Platform || !Player || !CosmosAsync) {
@@ -7,7 +9,7 @@ async function main() {
     return;
   }
 
-  const playingWidgetContainer: any = document.querySelector('[class="main-nowPlayingWidget-nowPlaying"]')
+  const playingWidgetContainer: any = document.querySelector('[class*="main-nowPlayingWidget-nowPlaying"]')
   if (!playingWidgetContainer) return setTimeout(main, 300);
   playingWidgetContainer.insertAdjacentHTML('beforeend', `
   <div class="enhance-plus-btns-container">
@@ -29,6 +31,9 @@ async function main() {
   </span>
   </div>
   `)
+
+  console.log('another go?');
+  
 
   const addToPlaylist: any = document.querySelector('[class="enhance-plus-add-to-playlist"]');
   const removeToPlaylist: any = document.querySelector('[class="enhance-plus-remove-to-playlist"]');
