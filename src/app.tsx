@@ -1,6 +1,5 @@
 // @ts-nocheck
 import 'css/main.css';
-console.log('go?');
 
 async function main() {
   const { Platform, Player, CosmosAsync } = Spicetify;
@@ -31,9 +30,6 @@ async function main() {
   </span>
   </div>
   `)
-
-  console.log('another go?');
-  
 
   const addToPlaylist: any = document.querySelector('[class="enhance-plus-add-to-playlist"]');
   const removeToPlaylist: any = document.querySelector('[class="enhance-plus-remove-to-playlist"]');

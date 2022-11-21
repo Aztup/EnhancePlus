@@ -1,4 +1,4 @@
-var enhanceDplus=(()=>{var e=async function e(){const{Platform:a,Player:n,CosmosAsync:t}=Spicetify;if(a&&n&&t){var s=document.querySelector('[class="main-nowPlayingWidget-nowPlaying"]');if(!s)return setTimeout(e,300);s.insertAdjacentHTML("beforeend",`
+var enhanceDplus=(()=>{var e=async function e(){const{Platform:a,Player:n,CosmosAsync:t}=Spicetify;if(a&&n&&t){var s=document.querySelector('[class*="main-nowPlayingWidget-nowPlaying"]');if(!s)return setTimeout(e,300);s.insertAdjacentHTML("beforeend",`
   <div class="enhance-plus-btns-container">
   <span class="enhance-plus-add-to-playlist">
      <button type="button" aria-label="Conserver dans la playlist" class="TRDgmejiOzKjissuLFSx" tabindex="-1" aria-expanded="false">
