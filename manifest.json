@@ -1,7 +1,7 @@
 {
     "name": "Enhance +",
     "description": "Adds add recommendation and remove recommendation btn to the spotify now playing.",
-    "main": "dist/enhance-plus.js",
+    "main": "dist/enhancePlus.js",
     "preview": "preview.png",
     "readme": "README.md",
     "authors": [

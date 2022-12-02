@@ -61,7 +61,6 @@ async function main() {
       try {
           const removeRecommendation: any = document.querySelector(`[src*="${Player.data.track.metadata['image_small_url'].match(/spotify:image:(\w+)/)[1]}"]`).parentElement.parentElement.querySelector('[class="main-trackList-rowSectionEnd"]').children[1];
           removeRecommendation.click()
-          
       } catch (error) {
           Platform.EnhanceAPI.removeItems(Player.data.context_uri, sessionId, [Player.data.track.uid], 0, 50, true);
       }
@@ -70,16 +69,22 @@ async function main() {
       hideBadges();
   });
 
-  setInterval(() => {
-      const currentTrack = Player.data.track!.uri;
-      if (lastTrack == currentTrack) return;
+  function onSongChanged(ev) {
+    const track = ev && ev.data.track;   
+    if (!track) return;
 
-      lastTrack = currentTrack;
+    const currentTrack = track.uri;
+    if (lastTrack == currentTrack) return;
 
-      const provider = Player.data.track!.metadata.provider;
-      if (provider != 'enhanced_recommendation') return hideBadges()
-      showBadges();
-  }, 10);
+    lastTrack = currentTrack;
+
+    const provider = track.metadata.provider;
+    if (provider != 'enhanced_recommendation') return hideBadges()
+    showBadges();
+  };
+
+  Player.addEventListener('songchange', onSongChanged);
+  onSongChanged(Player);
 }
 
 export default main;
