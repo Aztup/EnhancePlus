@@ -12,3 +12,7 @@
     justify-content: center;
     align-items: center;
 }
+
+.enhance-plus-svg {
+    fill: currentColor;
+}

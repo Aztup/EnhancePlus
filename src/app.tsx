@@ -16,7 +16,7 @@ async function main () : Promise<any> {
             <div class="enhance-plus-btns-container">
             <span class="enhance-plus-add-to-playlist">
                 <button type="button" aria-label="Conserver dans la playlist" class="TRDgmejiOzKjissuLFSx" tabindex="-1" aria-expanded="false">
-                <svg role="img" height="16" width="16" viewBox="0 0 16 16" class="Svg-ytk21e-0 eqtHWV">
+                <svg role="img" height="16" width="16" viewBox="0 0 16 16" class="enhance-plus-svg Svg-ytk21e-0 eqtHWV">
                     <path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8z"></path>
                     <path d="M11.75 8a.75.75 0 01-.75.75H8.75V11a.75.75 0 01-1.5 0V8.75H5a.75.75 0 010-1.5h2.25V5a.75.75 0 011.5 0v2.25H11a.75.75 0 01.75.75z"></path>
                 </svg>
@@ -24,7 +24,7 @@ async function main () : Promise<any> {
             </span>
             <span class="enhance-plus-remove-to-playlist">
                 <button type="button" aria-label="Conserver dans la playlist" class="TRDgmejiOzKjissuLFSx" tabindex="-1" aria-expanded="false">
-                <svg role="img" height="16" width="16" viewBox="0 0 16 16" class="Svg-ytk21e-0 eqtHWV">
+                <svg role="img" height="16" width="16" viewBox="0 0 16 16" class="enhance-plus-svg Svg-ytk21e-0 eqtHWV">
                     <path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8z"></path>
                     <path d="M12 8.75H4v-1.5h8v1.5z"></path>
                 </svg>
