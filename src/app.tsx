@@ -130,11 +130,9 @@ async function main () : Promise<any> {
     Player.addEventListener('onprogress', onSongProgress);
     onSongProgress();
 
-    const [viewport] = Object.values(Object.fromEntries(document.querySelectorAll('[class*="os-viewport"').entries())).filter((a: any) => a.attributes.style != null);
-
-    if (viewport) {
-        viewport.addEventListener('scroll', onScroll);
-    };
+    document.querySelectorAll('[class*="os-viewport"').forEach((el) => {
+        el.addEventListener('scroll', onScroll);
+    });
 }
 
 export default main;
