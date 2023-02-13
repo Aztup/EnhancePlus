@@ -41,18 +41,19 @@ async function main () : Promise<any> {
             Spicetify.Platform.EnhanceAPI.addRecommendation(Player.data.context_uri, playerAny.data.context_metadata['reporting.uri'].match(/sessionId=(\d+)/)[1], [playerAny.data.track.uid], 0, 50)
             hideBadges();
         });
-    
+
         removeToPlaylist.addEventListener('click', async () => {
-            const sessionId = Player.data.context_metadata['reporting.uri']!.match(/sessionId=(\d+)/)![1];
-            const playerAny = (Player as any);
-    
+            const playerData: any = Player.data;
+            const sessionId = playerData.context_metadata['reporting.uri']!.match(/sessionId=(\d+)/)![1];
+
             try {
-                const removeRecommendation: any = (document as any).querySelector(`[src*="${playerAny.track.metadata['image_small_url'].match(/spotify:image:(\w+)/)[1]}"]`).parentElement.parentElement.querySelector('[class="main-trackList-rowSectionEnd"]').children[1];
+                const removeRecommendation: any = (document as any).querySelector(`[src*="${playerData.track.metadata['image_small_url'].match(/spotify:image:(\w+)/)[1]}"]`).parentElement.parentElement.querySelector('[class="main-trackList-rowSectionEnd"]').children[1];
                 removeRecommendation.click();
             } catch (error) {
-                Platform.EnhanceAPI.removeItems(Player.data.context_uri, sessionId, [playerAny.data.track.uid], 0, 50, true);
+                console.log(error);
+                Platform.EnhanceAPI.removeItems(Player.data.context_uri, sessionId, [playerData.track.uid], 0, 50, true);
             }
-    
+
             Player.next();
             hideBadges();
         });
@@ -95,17 +96,22 @@ async function main () : Promise<any> {
 
     hideBadges();
 
-    function onSongChanged() {
+    let lastUid = '';
+
+    function onSongProgress() {
         const track = Player.data.track;
-        if (!track || !track.metadata) return;
+        if (!track || !track.metadata) return console.log('no track/metadata');
+
+        if (!track.uid || lastUid === track.uid) return;
+        lastUid = track.uid;
 
         const provider = track.metadata.provider;
         if (provider != 'enhanced_recommendation') return hideBadges();
         showBadges();
     };
 
-    Player.addEventListener('songchange', onSongChanged);
-    onSongChanged();
+    Player.addEventListener('onprogress', onSongProgress);
+    onSongProgress();
 }
 
 export default main;
