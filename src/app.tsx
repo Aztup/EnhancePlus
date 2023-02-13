@@ -2,6 +2,7 @@ import 'css/main.css';
 
 async function main () : Promise<any> {
     const { Platform, Player, CosmosAsync } = Spicetify;
+    const toRemove: string[] = [];
 
     if (!Platform || !Player || !CosmosAsync) {
         setTimeout(main, 300);
@@ -51,6 +52,7 @@ async function main () : Promise<any> {
                 removeRecommendation.click();
             } catch (error) {
                 console.log(error);
+                toRemove.push(playerData.track.metadata['image_small_url'].match(/spotify:image:(\w+)/)[1]);
                 Platform.EnhanceAPI.removeItems(Player.data.context_uri, sessionId, [playerData.track.uid], 0, 50, true);
             }
 
@@ -110,8 +112,29 @@ async function main () : Promise<any> {
         showBadges();
     };
 
+    function onScroll() {
+        toRemove.forEach((imageURI) => {
+            const trackImage: any = (document as any).querySelector(`[src*="${imageURI}`);
+            if (!trackImage) return;
+
+            const isEnhanced = trackImage.parentElement.parentElement.querySelector('[class*="main-trackList-enhanced"]');
+            if (!isEnhanced) return;
+
+            console.log('We removed!', trackImage);
+
+            toRemove.splice(toRemove.indexOf(imageURI));
+            trackImage.parentElement.parentElement.remove();
+        });
+    };
+
     Player.addEventListener('onprogress', onSongProgress);
     onSongProgress();
+
+    const [viewport] = Object.values(Object.fromEntries(document.querySelectorAll('[class*="os-viewport"').entries())).filter((a: any) => a.attributes.style != null);
+
+    if (viewport) {
+        viewport.addEventListener('scroll', onScroll);
+    };
 }
 
 export default main;
