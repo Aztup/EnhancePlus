@@ -130,9 +130,17 @@ async function main () : Promise<any> {
     Player.addEventListener('onprogress', onSongProgress);
     onSongProgress();
 
-    document.querySelectorAll('[class*="os-viewport"').forEach((el) => {
-        el.addEventListener('scroll', onScroll);
-    });
+    const listenedEls: any[] = [];
+
+    let loop = setInterval(() => {
+        document.querySelectorAll('[class*="os-viewport"').forEach((el) => {
+            if (listenedEls.includes(el)) return;
+            listenedEls.push(el);
+            if (listenedEls.length === 3) clearInterval(loop)
+            el.addEventListener('scroll', onScroll);
+            console.log('listen to', el);
+        });
+    }, 100);
 }
 
 export default main;
