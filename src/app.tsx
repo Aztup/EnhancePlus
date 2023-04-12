@@ -2,7 +2,7 @@ import 'css/main.css';
 
 async function main () : Promise<any> {
     const { Platform, Player, CosmosAsync } = Spicetify;
-    const toRemove: string[] = [];
+    const toRemove: any[] = [];
 
     if (!Platform || !Player || !CosmosAsync) {
         setTimeout(main, 300);
@@ -47,24 +47,14 @@ async function main () : Promise<any> {
             const playerData: any = Player.data;
             const sessionId = playerData.context_metadata['reporting.uri']!.match(/sessionId=(\d+)/)![1];
 
-            try {
-                const removeRecommendations = document.querySelectorAll(`[src*="${playerData.track.metadata['image_small_url'].match(/spotify:image:(\w+)/)[1]}"]`);
+            toRemove.push([
+                playerData.track.metadata['image_small_url'].match(/spotify:image:(\w+)/)[1],
+                playerData.track.metadata.title
+            ]);
 
-                for (const removeRecommendation of removeRecommendations) {
-                    if (!removeRecommendation.parentElement) continue;
-                    const rowTitleEl = removeRecommendation.parentElement.querySelector('[class*="main-trackList-rowTitle"');
-                    if (!rowTitleEl) continue;
+            Platform.EnhanceAPI.removeItems(Player.data.context_uri, sessionId, [playerData.track.uid], 0, 50, true);
 
-                    const rowTitle = rowTitleEl.innerHTML;
-                    if (rowTitle != playerData.track.metadata.title) continue;
-
-                    (removeRecommendation as any).parentElement.parentElement.querySelector('[class="main-trackList-rowSectionEnd"]').children[1].click();
-                };
-            } catch (error) {
-                console.log(error);
-                Platform.EnhanceAPI.removeItems(Player.data.context_uri, sessionId, [playerData.track.uid], 0, 50, true);
-                toRemove.push(playerData.track.metadata['image_small_url'].match(/spotify:image:(\w+)/)[1]);
-            }
+            updateToRemoveQueue();
 
             Player.next();
             hideBadges();
@@ -122,18 +112,20 @@ async function main () : Promise<any> {
         showBadges();
     };
 
-    function onScroll() {
-        toRemove.forEach((imageURI) => {
-            const trackImage: any = (document as any).querySelector(`[src*="${imageURI}`);
-            if (!trackImage) return;
+    function updateToRemoveQueue() {
+        toRemove.forEach(([imageURI, songTitle]) => {
+            const trackImages: any = (document as any).querySelectorAll(`[src*="${imageURI}`);
+            
+            trackImages.forEach((trackImage: any) => {
+                const isEnhanced = trackImage.parentElement.parentElement.querySelector('[class*="main-trackList-enhanced"]');
+                if (!isEnhanced) return;
 
-            const isEnhanced = trackImage.parentElement.parentElement.querySelector('[class*="main-trackList-enhanced"]');
-            if (!isEnhanced) return;
+                const trackSngTitle = trackImage.parentElement.querySelector('[class*="main-trackList-rowTitle"]').innerHTML;
+                if (trackSngTitle != songTitle) return console.log('does not match', trackSngTitle, songTitle);
 
-            console.log('We removed!', trackImage);
-
-            toRemove.splice(toRemove.indexOf(imageURI));
-            trackImage.parentElement.parentElement.remove();
+                toRemove.splice(toRemove.indexOf(imageURI));
+                trackImage.parentElement.parentElement.remove();
+            });
         });
     };
 
@@ -147,12 +139,12 @@ async function main () : Promise<any> {
             if (listenedEls.includes(el)) return;
             listenedEls.push(el);
             if (listenedEls.length === 3) clearInterval(loop)
-            el.addEventListener('scroll', onScroll);
+            el.addEventListener('scroll', updateToRemoveQueue);
             console.log('listen to', el);
         });
     }, 100);
 
-    console.log('EnhancePlus v1.0.0a loaded!');
+    console.log('EnhancePlus v1.0.0c loaded!');
 }
 
 export default main;
