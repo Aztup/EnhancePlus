@@ -48,12 +48,22 @@ async function main () : Promise<any> {
             const sessionId = playerData.context_metadata['reporting.uri']!.match(/sessionId=(\d+)/)![1];
 
             try {
-                const removeRecommendation: any = (document as any).querySelector(`[src*="${playerData.track.metadata['image_small_url'].match(/spotify:image:(\w+)/)[1]}"]`).parentElement.parentElement.querySelector('[class="main-trackList-rowSectionEnd"]').children[1];
-                removeRecommendation.click();
+                const removeRecommendations = document.querySelectorAll(`[src*="${playerData.track.metadata['image_small_url'].match(/spotify:image:(\w+)/)[1]}"]`);
+
+                for (const removeRecommendation of removeRecommendations) {
+                    if (!removeRecommendation.parentElement) continue;
+                    const rowTitleEl = removeRecommendation.parentElement.querySelector('[class*="main-trackList-rowTitle"');
+                    if (!rowTitleEl) continue;
+
+                    const rowTitle = rowTitleEl.innerHTML;
+                    if (rowTitle != playerData.track.metadata.title) continue;
+
+                    (removeRecommendation as any).parentElement.parentElement.querySelector('[class="main-trackList-rowSectionEnd"]').children[1].click();
+                };
             } catch (error) {
                 console.log(error);
-                toRemove.push(playerData.track.metadata['image_small_url'].match(/spotify:image:(\w+)/)[1]);
                 Platform.EnhanceAPI.removeItems(Player.data.context_uri, sessionId, [playerData.track.uid], 0, 50, true);
+                toRemove.push(playerData.track.metadata['image_small_url'].match(/spotify:image:(\w+)/)[1]);
             }
 
             Player.next();
@@ -141,6 +151,8 @@ async function main () : Promise<any> {
             console.log('listen to', el);
         });
     }, 100);
+
+    console.log('EnhancePlus v1.0.0a loaded!');
 }
 
 export default main;
