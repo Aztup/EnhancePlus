@@ -43,7 +43,10 @@ async function main () : Promise<any> {
             hideBadges();
         });
 
+        let canSkip = true;
+
         removeToPlaylist.addEventListener('click', async () => {
+            if (!canSkip) return;
             const playerData: any = Player.data;
             const sessionId = playerData.context.metadata.enhanced_session_id;
 
@@ -58,6 +61,18 @@ async function main () : Promise<any> {
 
             Player.next();
             hideBadges();
+
+            // Turn off and on shuffle to update the enhance state it's a little bit of an hacky way but it works
+            if (Player.getShuffle()) {
+                canSkip =false;
+                Player.toggleShuffle();
+
+                // Looks like toggleShuffle has some kind of cooldown
+                setTimeout(() => {
+                    canSkip = true;
+                    Player.toggleShuffle();
+                }, 500);
+            }
         });
     };
 
@@ -144,7 +159,7 @@ async function main () : Promise<any> {
         });
     }, 100);
 
-    console.log('EnhancePlus v1.0.1 loaded!');
+    console.log('EnhancePlus v1.0.2 loaded!');
 }
 
 export default main;
