@@ -38,21 +38,21 @@ async function main () : Promise<any> {
         const addToPlaylist: any = document.querySelector('[class="enhance-plus-add-to-playlist"]');
 
         addToPlaylist.addEventListener('click', () => {
-            const playerAny = (Player as any);
-            Spicetify.Platform.EnhanceAPI.addRecommendation(Player.data.context_uri, playerAny.data.context_metadata['reporting.uri'].match(/sessionId=(\d+)/)[1], [playerAny.data.track.uid], 0, 50)
+            const playerAny = (Player.data as any);
+            Spicetify.Platform.EnhanceAPI.addRecommendation(playerAny.context.uri, playerAny.context.metadata.enhanced_session_id, [playerAny.track.uid], 0, 50)
             hideBadges();
         });
 
         removeToPlaylist.addEventListener('click', async () => {
             const playerData: any = Player.data;
-            const sessionId = playerData.context_metadata['reporting.uri']!.match(/sessionId=(\d+)/)![1];
+            const sessionId = playerData.context.metadata.enhanced_session_id;
 
             toRemove.push([
                 playerData.track.metadata['image_small_url'].match(/spotify:image:(\w+)/)[1],
                 playerData.track.metadata.title
             ]);
 
-            Platform.EnhanceAPI.removeItems(Player.data.context_uri, sessionId, [playerData.track.uid], 0, 50, true);
+            Platform.EnhanceAPI.removeItems(playerData.context.uri, sessionId, [playerData.track.uid], 0, 50, true);
 
             updateToRemoveQueue();
 
@@ -144,7 +144,7 @@ async function main () : Promise<any> {
         });
     }, 100);
 
-    console.log('EnhancePlus v1.0.0c loaded!');
+    console.log('EnhancePlus v1.0.1 loaded!');
 }
 
 export default main;
